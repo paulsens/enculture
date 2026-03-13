@@ -1,0 +1,31 @@
+#!/bin/bash
+
+#SBATCH --job-name=pairedfinetune
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=20G
+#SBATCH --time=24:00:00
+#SBATCH --export=ALL
+#SBATCH -o /path/to/ofiles/o_%j.txt
+#SBATCH -e /path/to/errfiles/o_%j.err
+
+source /path/to/conda/envs/fmribert/bin/activate fmribert
+
+echo "Description: $1"
+echo "Heldout Run: $2"
+echo "Binweight: $3"
+echo "Learning Rate: $4"
+echo "Save Model: $5"
+echo "Task: $6"
+echo "Attention Heads: $7"
+echo "Num Layers: $8"
+echo "Forward Expansion: $9"
+echo "Sequence Length: ${10}"
+echo "Dataset: ${11}"
+echo "Pretrain Task: ${12}"
+
+python /path/to/enculture/pairedfinetune.py \
+    -m "$1" -heldout_run "$2" -CLS_task_weight "$3" -LR "$4" \
+    -save_model "$5" -task "$6" -attention_heads "$7" \
+    -num_layers "$8" -forward_expansion "$9" -seq_len "${10}" \
+    -dataset "${11}" -pretrain_task "${12}"
